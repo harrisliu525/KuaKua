@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 58, 45, 45;
+  --background-start-rgb: 248, 245, 240;
+  --background-end-rgb: 248, 245, 240;
+}
+
+@layer base {
+  :root {
+    --background: 37 33% 95%;
+    --foreground: 20 13% 25%;
+    --card: 37 33% 99%;
+    --card-foreground: 20 13% 25%;
+    --popover: 37 33% 99%;
+    --popover-foreground: 20 13% 25%;
+    --primary: 22 59% 72%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 37 33% 95%;
+    --secondary-foreground: 20 13% 25%;
+    --muted: 37 33% 90%;
+    --muted-foreground: 20 13% 45%;
+    --accent: 37 80% 97%;
+    --accent-foreground: 20 13% 25%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 20 13% 85%;
+    --input: 20 13% 85%;
+    --ring: 22 59% 72%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-honey-background text-honey-text antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
+  }
+}
+
+@layer components {
+  .honey-card {
+    @apply bg-honey-highlight rounded-xl p-6 shadow-sm border border-honey-accent/20 transition-all;
+  }
+  
+  .honey-input {
+    @apply bg-white border border-honey-accent/30 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-honey-accent/50 transition-all;
+  }
+  
+  .honey-button {
+    @apply bg-honey-accent text-white rounded-lg px-6 py-3 font-medium shadow-sm hover:shadow-md transition-all hover:bg-honey-accent/90 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed;
+  }
+  
+  .shimmer {
+    @apply bg-gradient-to-r from-transparent via-white/20 to-transparent bg-[length:200%_100%] animate-shimmer;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+}
