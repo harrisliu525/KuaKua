@@ -22,13 +22,33 @@
 | `OPENROUTER_API_KEY` | 您的OpenRouter API密钥 | 用于AI生成功能 |
 | `OPENROUTER_MODEL` | `deepseek/deepseek-chat-v3-0324` | AI模型配置 |
 
-**配置步骤：**
-1. 进入项目 → Settings → Environment Variables
-2. 添加上述两个变量
-3. 确保选择所有环境：Production ✓ Preview ✓ Development ✓
-4. 点击 Save
+**配置步骤（通过Vercel Dashboard）：**
+1. 在Vercel项目页面，点击 **Settings** 标签
+2. 在左侧菜单选择 **Environment Variables**
+3. 点击 **Add New** 按钮
+4. 添加第一个变量：
+   - **Name**: `OPENROUTER_API_KEY`
+   - **Value**: 粘贴您的实际API密钥（例如：sk-or-v1-xxx...）
+   - **Environment**: 勾选 Production、Preview、Development
+   - 点击 **Save**
+5. 添加第二个变量：
+   - **Name**: `OPENROUTER_MODEL`
+   - **Value**: `deepseek/deepseek-chat-v3-0324`
+   - **Environment**: 勾选 Production、Preview、Development
+   - 点击 **Save**
 
-### 4. 部署验证
+**重要提醒：**
+- ⚠️ API密钥必须是完整的密钥字符串，不要包含任何引号或额外字符
+- ⚠️ 确保选择所有三个环境：Production、Preview、Development
+- ⚠️ 变量名区分大小写，必须完全匹配
+
+### 4. 重新部署
+配置完环境变量后：
+1. 在Vercel项目页面，点击 **Deployments** 标签
+2. 点击最新部署右侧的三个点菜单
+3. 选择 **Redeploy** 重新部署
+
+### 5. 部署验证
 - [ ] 构建成功完成
 - [ ] 网站可以正常访问
 - [ ] 夸奖生成功能正常工作
@@ -36,7 +56,18 @@
 
 ## 🔧 常见问题排查
 
-### 问题1：构建失败 - 环境变量未设置
+### 问题1：Secret引用错误
+```
+Environment Variable "OPENROUTER_API_KEY" references Secret "openrouter_api_key", which does not exist.
+```
+
+**解决方案：**
+1. 这个错误表示配置文件引用了不存在的Vercel Secret
+2. 已修复：项目现在使用标准环境变量配置
+3. 请按照上述步骤在Dashboard中直接添加环境变量
+4. 如果仍有问题，删除并重新创建环境变量
+
+### 问题2：构建失败 - 环境变量未设置
 ```
 Error: OPENROUTER_API_KEY 环境变量未设置
 ```
@@ -46,13 +77,13 @@ Error: OPENROUTER_API_KEY 环境变量未设置
 2. 变量名拼写完全正确（区分大小写）
 3. 重新触发部署
 
-### 问题2：部署成功但功能不工作
+### 问题3：部署成功但功能不工作
 **排查步骤：**
 1. 检查Vercel Functions日志：项目 → Functions → 查看运行时日志
 2. 确认API密钥有效且有足够额度
 3. 测试环境变量是否正确传递
 
-### 问题3：域名访问慢
+### 问题4：域名访问慢
 **优化方案：**
 - Vercel已配置香港节点（hkg1）以提升国内访问速度
 - 考虑使用自定义域名
