@@ -48,19 +48,6 @@ const COMPLIMENT_PROMPT = `
 - 不要在表格外输出其它文本。
 `;
 
-// 从环境变量获取配置
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-const MODEL = process.env.OPENROUTER_MODEL || 'deepseek/deepseek-chat-v3-0324';
-
-if (!OPENROUTER_API_KEY) {
-  throw new Error('OPENROUTER_API_KEY 环境变量未设置');
-}
-
-const client = new OpenAI({
-  baseURL: 'https://openrouter.ai/api/v1',
-  apiKey: OPENROUTER_API_KEY,
-});
-
 // 解析大模型返回的表格格式
 function parseComplimentTable(text: string) {
   try {
@@ -90,6 +77,23 @@ function parseComplimentTable(text: string) {
 
 export async function POST(request: Request) {
   try {
+    // 在运行时检查环境变量
+    const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
+    const MODEL = process.env.OPENROUTER_MODEL || 'deepseek/deepseek-chat-v3-0324';
+
+    if (!OPENROUTER_API_KEY) {
+      console.error('OPENROUTER_API_KEY environment variable is not set');
+      return NextResponse.json(
+        { error: 'API configuration error. Please contact administrator.' },
+        { status: 500 }
+      );
+    }
+
+    const client = new OpenAI({
+      baseURL: 'https://openrouter.ai/api/v1',
+      apiKey: OPENROUTER_API_KEY,
+    });
+
     const { target, scenario = '未指定' } = await request.json();
     
     if (!target) {

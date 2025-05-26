@@ -59,6 +59,10 @@ npm run dev
    - **问题**: 服务端渲染和客户端渲染不一致，localStorage访问导致hydration失败
    - **解决**: 使用ClientOnly组件包装客户端特定功能，确保SSR兼容性
 
+5. **Vercel部署环境变量错误**
+   - **问题**: 部署时出现"OPENROUTER_API_KEY 环境变量未设置"错误
+   - **解决**: 在Vercel项目设置中正确配置环境变量，确保API路由运行时检查而非构建时检查
+
 ### 常见问题
 
 **Q: 构建时出现字体下载失败怎么办？**
@@ -72,6 +76,12 @@ A: Next.js会自动尝试下一个可用端口（如3001、3002等）。
 
 **Q: 出现Hydration错误怎么办？**
 A: 项目已通过ClientOnly组件解决SSR兼容性问题，确保客户端特定功能正确渲染。
+
+**Q: Vercel部署失败，提示环境变量未设置怎么办？**
+A: 请确保在Vercel项目设置中正确添加了`OPENROUTER_API_KEY`和`OPENROUTER_MODEL`环境变量，并选择了所有环境（Production, Preview, Development）。
+
+**Q: 部署成功但API调用失败怎么办？**
+A: 检查Vercel函数日志，确认环境变量是否正确传递。可以在项目设置的Functions标签页查看运行时日志。
 
 ## 项目结构
 
@@ -114,6 +124,53 @@ kuakua/
 - **D. 氛围类**（6种）：半步幽默、夸+感谢、夸+请教等
 
 ## 部署
+
+### Vercel部署（推荐）
+
+#### 1. 准备工作
+确保您的代码已推送到GitHub/GitLab等代码仓库。
+
+#### 2. 导入项目到Vercel
+1. 访问 [vercel.com](https://vercel.com) 并登录
+2. 点击 "New Project"
+3. 选择您的代码仓库并导入
+
+#### 3. 配置环境变量（重要！）
+在Vercel项目设置中添加以下环境变量：
+
+**方法一：通过Vercel Dashboard**
+1. 进入项目设置 → Environment Variables
+2. 添加以下变量：
+   ```
+   Name: OPENROUTER_API_KEY
+   Value: your_actual_openrouter_api_key
+   Environment: Production, Preview, Development ✓
+   ```
+   ```
+   Name: OPENROUTER_MODEL  
+   Value: deepseek/deepseek-chat-v3-0324
+   Environment: Production, Preview, Development ✓
+   ```
+
+**方法二：通过Vercel CLI**
+```bash
+# 安装Vercel CLI
+npm i -g vercel
+
+# 登录并设置环境变量
+vercel env add OPENROUTER_API_KEY
+vercel env add OPENROUTER_MODEL
+```
+
+#### 4. 部署
+环境变量配置完成后，Vercel会自动重新部署项目。
+
+#### 5. 验证部署
+访问您的Vercel部署域名，测试夸奖生成功能是否正常。
+
+### 本地构建测试
+
+在部署前，建议先在本地测试构建：
 
 ### 构建生产版本
 ```bash
